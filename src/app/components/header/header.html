@@ -1,0 +1,17 @@
+<header class="header">
+  <div class="header-container">
+    <div class="logo">
+      <a routerLink="/">Paired Comparison Program</a>
+    </div>
+
+    <nav class="nav" [class.open]="menuOpen">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+    </nav>
+
+    <button class="hamburger" (click)="toggleMenu()" [class.open]="menuOpen">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>
