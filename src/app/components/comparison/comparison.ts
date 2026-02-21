@@ -3,6 +3,7 @@ import { Component, ChangeDetectorRef } from '@angular/core';
 interface Item {
   label: string;
   wins: number;
+  growthRating: number;
 }
 
 interface Pair {
@@ -84,7 +85,7 @@ onFileUpload(event: Event) {
         return;
       }
 
-      this.items = rows.map(label => ({ label, wins: 0 }));
+      this.items = rows.map(label => ({ label, wins: 0, growthRating: 1 }));
       this.pairs = this.generatePairs(this.items);
       this.currentPairIndex = 0;
       this.done = false;
@@ -153,8 +154,8 @@ onFileUpload(event: Event) {
   }
 
   downloadResults() {
-    const header = 'Item,Times Selected';
-    const rows = this.sortedResults.map(item => `${item.label},${item.wins}`);
+    const header = 'Item,Times Selected,Growth Since Fall';
+    const rows = this.sortedResults.map(item => `${item.label},${item.wins},${item.growthRating}`);
     const csv = [header, ...rows].join('\n');
 
     const blob = new Blob([csv], { type: 'text/csv' });

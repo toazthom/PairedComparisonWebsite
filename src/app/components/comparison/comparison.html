@@ -47,14 +47,31 @@
    @if(done){
        <div class="results">
          <h2>Results </h2>
-         <ol class="results-list">
-           @for(item of sortedResults; track item.label; let i = $index) {
+            <ol class="results-list">
+              @for(item of sortedResults; track item.label; let i = $index) {
                 <li [class.gold]="i === 0" [class.silver]="i === 1" [class.bronze]="i === 2">
-                    <span class="result-label">{{ item.label }}</span>
-                    <span class="result-wins">{{ item.wins }} win{{ item.wins !== 1 ? 's' : '' }}</span>
+                  <span class="result-label">{{ item.label }}</span>
+                  <span class="result-wins">{{ item.wins }} win{{ item.wins !== 1 ? 's' : '' }}</span>
+                  <span class="result-growth">
+                    <span class="growth-label">Growth amount since fall</span>
+                    <div class="radio-group">
+                      @for(option of [1,2,3,4]; track option) {
+                        <label class="radio-option">
+                          <input
+                            type="radio"
+                            [name]="'growth-' + item.label"
+                            [value]="option"
+                            [checked]="item.growthRating === option"
+                            (change)="item.growthRating = option"
+                          />
+                          {{ option }}
+                        </label>
+                      }
+                    </div>
+                  </span>
                 </li>
-            }
-         </ol>
+              }
+            </ol>
          <div class="results-actions">
            <button class="start-btn" (click)="restart()">Run Again</button>
            <button class="reset-link" (click)="reset()">Upload New List</button>
