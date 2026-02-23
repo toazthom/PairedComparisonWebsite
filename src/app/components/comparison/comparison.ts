@@ -85,7 +85,7 @@ onFileUpload(event: Event) {
         return;
       }
 
-      this.items = rows.map(label => ({ label, wins: 0, growthRating: 1 }));
+      this.items = rows.map(label => ({ label, wins: 0, growthRating: 0 }));
       this.pairs = this.generatePairs(this.items);
       this.currentPairIndex = 0;
       this.done = false;

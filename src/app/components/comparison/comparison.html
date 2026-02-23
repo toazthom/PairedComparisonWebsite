@@ -53,21 +53,15 @@
                   <span class="result-label">{{ item.label }}</span>
                   <span class="result-wins">{{ item.wins }} win{{ item.wins !== 1 ? 's' : '' }}</span>
                   <span class="result-growth">
-                    <span class="growth-label">Growth amount since fall</span>
-                    <div class="radio-group">
-                      @for(option of [1,2,3,4]; track option) {
-                        <label class="radio-option">
-                          <input
-                            type="radio"
-                            [name]="'growth-' + item.label"
-                            [value]="option"
-                            [checked]="item.growthRating === option"
-                            (change)="item.growthRating = option"
-                          />
-                          {{ option }}
-                        </label>
-                      }
-                    </div>
+                  <span class="growth-label">Growth since fall: {{ item.growthRating }}</span>
+                    <input
+                      type="range"
+                      min="0"
+                      max="100"
+                      [value]="item.growthRating"
+                      (input)="item.growthRating = +$any($event.target).value"
+                      class="growth-slider"
+                    />
                   </span>
                 </li>
               }
