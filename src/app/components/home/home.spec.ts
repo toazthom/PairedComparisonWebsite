@@ -1,20 +1,23 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { Home } from './home';
+import { HomeComponent } from './home';
+import { ChangeDetectorRef } from '@angular/core';
+import { provideRouter } from '@angular/router';
 
 describe('Home', () => {
-  let component: Home;
-  let fixture: ComponentFixture<Home>;
+  let component: HomeComponent;
+  let fixture: ComponentFixture<HomeComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Home]
-    })
-    .compileComponents();
+      imports: [HomeComponent],
 
-    fixture = TestBed.createComponent(Home);
+            providers: [ChangeDetectorRef, provideRouter([])]
+
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(HomeComponent);
     component = fixture.componentInstance;
-    await fixture.whenStable();
+    fixture.detectChanges();
   });
 
   it('should create', () => {

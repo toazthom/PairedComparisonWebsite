@@ -11,6 +11,8 @@ interface Pair {
   right: Item;
 }
 
+type Phase = 'upload' | 'comparing' | 'rating' | 'results';
+
 @Component({
   selector: 'app-comparison',
   standalone: true,
@@ -22,8 +24,8 @@ export class ComparisonComponent {
   items: Item[] = [];
   pairs: Pair[] = [];
   currentPairIndex = 0;
-  done = false;
-  fileLoaded = false;
+  currentRatingIndex = 0;
+  phase: Phase = 'upload';
   errorMessage = '';
 
   constructor(private cdr: ChangeDetectorRef) {}
@@ -88,8 +90,7 @@ onFileUpload(event: Event) {
       this.items = rows.map(label => ({ label, wins: 0, growthRating: 0 }));
       this.pairs = this.generatePairs(this.items);
       this.currentPairIndex = 0;
-      this.done = false;
-      this.fileLoaded = true;
+      this.phase = 'comparing';
       this.cdr.detectChanges();
     };
 
@@ -122,7 +123,8 @@ onFileUpload(event: Event) {
 
     this.currentPairIndex++;
     if (this.currentPairIndex >= this.pairs.length) {
-      this.done = true;
+      this.phase = 'rating';
+      this.currentRatingIndex = 0;
     }
   }
 
@@ -138,19 +140,33 @@ onFileUpload(event: Event) {
     return Math.round((this.currentPairIndex / this.pairs.length) * 100);
   }
 
+  get currentRatingItem(): Item {
+    return this.sortedResults[this.currentRatingIndex];
+  }
+
+  nextRating() {
+    this.currentRatingIndex++;
+    if (this.currentRatingIndex >= this.items.length) {
+      this.phase = 'results';
+    }
+    this.cdr.detectChanges();
+  }
+
   restart() {
     this.items.forEach(i => i.wins = 0);
     this.pairs = this.generatePairs(this.items);
     this.currentPairIndex = 0;
-    this.done = false;
+    this.currentRatingIndex = 0;
+    this.phase = 'comparing';
   }
 
   reset() {
     this.items = [];
     this.pairs = [];
     this.currentPairIndex = 0;
-    this.done = false;
-    this.fileLoaded = false;
+    this.currentRatingIndex = 0;
+    this.phase = 'upload';
+    this.errorMessage = '';
   }
 
   downloadResults() {
