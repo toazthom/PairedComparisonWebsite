@@ -341,7 +341,7 @@
   justify-content: space-between;
   align-items: flex-start;
   margin: 0 -24px; 
-  width: calc(100% + 42px);
+  width: calc(100% + 46px);
 }
 
 .slider-anchor {
@@ -352,6 +352,11 @@
 }
 
 .slider-descriptor {
+  word-break: break-word;
+  overflow-wrap: break-word;
+  text-align: center;
+  max-width: 70px;
+  white-space: normal;
   font-size: 0.75rem;
   color: #666;
 }
